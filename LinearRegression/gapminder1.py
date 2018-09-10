@@ -16,5 +16,5 @@ bmi_life_model = linear_reg_model.fit(X, y)
 
 # Make a prediction using the model
 # TODO: Predict life expectancy for a BMI value of 21.07931
-laos_life_exp = bmi_life_model.predict(array([21.07931]).reshape(1, -1))
+laos_life_exp = bmi_life_model.predict([[21.07931]])
 print(laos_life_exp)
