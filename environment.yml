@@ -1,7 +1,15 @@
 name: dog-project
 channels:
+  - conda-forge
   - defaults
 dependencies:
+  - _py-xgboost-mutex=2.0=cpu_0
+  - ca-certificates=2018.11.29=ha4d7672_0
+  - certifi=2018.8.24=py35_1001
+  - libxgboost=0.80=hfc679d8_1
+  - openssl=1.0.2p=h470a237_1
+  - py-xgboost=0.80=py35hfc679d8_1
+  - xgboost=0.80=py35hfc679d8_1
   - _tflow_1100_select=0.0.1=gpu
   - absl-py=0.4.1=py35_0
   - appdirs=1.4.3=py35h28b3542_0
@@ -13,9 +21,7 @@ dependencies:
   - blas=1.0=mkl
   - bleach=2.1.4=py35_0
   - bzip2=1.0.6=h14c3975_5
-  - ca-certificates=2018.03.07=0
   - cairo=1.14.12=h8948797_3
-  - certifi=2018.8.24=py35_1
   - cffi=1.11.5=py35he75722e_1
   - constantly=15.1.0=py35h28b3542_0
   - cryptography=2.3.1=py35hc365091_0
@@ -93,7 +99,6 @@ dependencies:
   - numpy-base=1.15.2=py35h81de0dd_0
   - olefile=0.46=py35_0
   - opencv=3.4.2=py35h6fd60c2_1
-  - openssl=1.0.2p=h14c3975_0
   - pandoc=2.2.3.2=0
   - pandocfilters=1.4.2=py35_1
   - parso=0.3.1=py35_0
