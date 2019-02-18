@@ -6,3 +6,6 @@
 
 # Ignore image data
 data/*_images/
+data/*_sentiment/
+data/*_metadata/
+
