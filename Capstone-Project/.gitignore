@@ -1,5 +1,8 @@
 .ipynb_checkpoints/
-data/
+# data/
 
 # Ignore VSCode Config Folder
 .vscode
+
+# Ignore image data
+data/*_images/
