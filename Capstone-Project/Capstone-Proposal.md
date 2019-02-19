@@ -4,6 +4,20 @@
 
 > Mahesh Babu Gorantla Feb 18, 2019
 
+<!-- TOC -->
+- [**Capstone Project Proposal**](#capstone-project-proposal)
+  - [**Kaggle Challenge: PetFinder.my Adoption Prediction**](#kaggle-challenge-petfindermy-adoption-prediction)
+    - [**Domain Background**](#domain-background)
+    - [**Problem Statement**](#problem-statement)
+    - [**Datasets and Inputs**](#datasets-and-inputs)
+      - [**File Descriptions**](#file-descriptions)
+      - [**Data Fields**](#data-fields)
+      - [**AdoptionSpeed**](#adoptionspeed)
+    - [**Solution Statement**](#solution-statement)
+    - [**Benchmark Model**](#benchmark-model)
+    - [**Evaluation Metrics**](#evaluation-metrics)
+    - [**Project Design**](#project-design)
+
 ### **Domain Background**
 
 Millions of stray animals suffer on the streets or are euthanized in animal shelters every day around the world. If at all we can find those stray animals a forever home, many precious live can be given a new life that they truly deserve and in turn we will see more happier families.
@@ -18,10 +32,10 @@ It is a classificiation problem because a pet's adoption speed is classified int
 
 A relevant potential solution is to use a few classification algorithms such as
 
-* k-Means Clustering (Baseline model)
-* DBSCAN
-* Random Forests
-* XGBoost
+- k-Means Clustering
+- DBSCAN
+- Random Forests
+- XGBoost (Baseline model)
 
 And, choose the one with best `cross_validation` score on the training dataset.
 
@@ -96,8 +110,49 @@ Contestants are required to predict this value. The value is determined by how q
 
 ### **Solution Statement**
 
+First, we will import the training dataset `/data/train/train.csv` and then drop irrelevant columns (that do not help our classification algorithm). Next, find the missing rows in each column and also generate descriptive statistics to understand the distribution of data. Usually on close analysis of  descriptive statistics we will often find outliers/abnormal values in the `min`/`max` rows for each column.
+
+Create custom data imputers to fill in the missing values for both quantitative (`mean`/`median` value for the column) and categorical columns (`mode` value for the column). Create a pipeline to fit and transform the data using the custom data imputers. After imputing the missing values, plot histograms per pet category (1 - Dogs and 2 - Cats) to further examine the distributions per column, determine any anomalies found and correct those anomalies with appropriate data correction techniques. And, plot the column correlation heatmap to find any closely related columns (if any).
+
+Once all the processes are implemented as mentioned above, the data at this point can now safely be assumed with no missing or anomalous values. Now, we need to dummify any categorical columns and scale each column either using `StandardScaler` or `MinMaxScaler` (I chose to use `MinMaxScaler` for now).
+
+Now, lets split the cleaned and scaled data into training features and prediction variable (i.e. `AdoptionSpeed`).
+
+The above mentioned problem is a supervised multi-class classification problem. To predict `AdoptionSpeed` based on the training features of a pet, I would like to use classification algorithms like
+
+1. Classification and Regression Trees (CART)
+
+2. kNN Classifier
+
+3. Support Vector Machines (SVM)
+
+4. Random Forests
+
+5. XGBoost
+
+to predict the adoptibility of a pet.
+
+Find the model with best parameters using `GridSearchCV` and save the model. Load the model weights, preprocess the test data and obtain the performance of the model on the testing dataset at `data/test/test.csv`.
+
 ### **Benchmark Model**
 
+As we know that the above mentioned prediction task is a supervised classification problem, we should use tree based classification models which typically outperform other classification models. Hence, I would like to use `kNN Classfier` and `XGBoost` algorithms as a benchmark and beat the benchmark perfomance both in terms of time to fit the model as well as increase in prediction accuracy.
+
+Currently, the baseline prediction accuracy is as follows
+
+| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
+| -------------------- | ------------------------ | ------------------------- |
+| KNeighborsClassifier | 1.01                     | 31.17%                    |
+| XGBoost              | 0.99                     | 38.01%                    |
+
+From the above results, we can infer that `XGBoost` should outperform all the above mentioned tree-based classification algoritms because we are able to get higher prediction accuracy given the higher dimensional space in lesser time than `kNN`.
+
+Check [Benchmark Model Notebook](`https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/Capstone_Project/Capstone-Project/Kaggle-Notebook.ipynb`) for information on feature engineering techniques used to impute the missing data in the given dataset.
+
+To improve the performance of the model over the benchmark model, we will need to find more anomalies in the data (if there are any and correct them). Reduce the dimensionality of the dataset using `LDA` - Linear Discriminant Analysis techique and test for the performance on the `train` and `test` datasets.
+
 ### **Evaluation Metrics**
+
+with `StratifiedKFold` cross-validation technique
 
 ### **Project Design**
