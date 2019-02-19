@@ -1,9 +1,9 @@
 # **Capstone Project Proposal**
 
 ## **Kaggle Challenge: PetFinder.my Adoption Prediction**
+> Mahesh Babu Gorantla
 
-<span text-align="center">Mahesh Babu Gorantla</span>
-<span text-align="center">Feb 18, 2019</span>
+> Feb 18, 2019
 
 ### **Domain Background**
 Millions of stray animals suffer on the streets or are euthanized in animal shelters every day around the world. If at all we can find those stray animals a forever home, many precious live can be given a new life that they truly deserve and in turn we will see more happier families.
