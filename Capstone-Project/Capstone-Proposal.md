@@ -138,7 +138,7 @@ Find the model with best parameters using `GridSearchCV` and save the model. Loa
 
 As we know that the above mentioned prediction task is a supervised classification problem, we should use tree based classification models which typically outperform other classification models. Hence, I would like to use `kNN Classfier` and `XGBoost` algorithms as a benchmark and beat the benchmark perfomance both in terms of time to fit the model as well as increase in prediction accuracy.
 
-Currently, the baseline prediction accuracy is as follows
+Currently, the baseline prediction accuracy (without feature transformation) is as follows
 
 | Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
 | -------------------- | ------------------------ | ------------------------- |
@@ -149,10 +149,14 @@ From the above results, we can infer that `XGBoost` should outperform all the ab
 
 Check [Benchmark Model Notebook](`https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/Capstone_Project/Capstone-Project/Kaggle-Notebook.ipynb`) for information on feature engineering techniques used to impute the missing data in the given dataset.
 
-To improve the performance of the model over the benchmark model, we will need to find more anomalies in the data (if there are any and correct them). Reduce the dimensionality of the dataset using `LDA` - Linear Discriminant Analysis techique and test for the performance on the `train` and `test` datasets.
+To improve the performance of the model over the benchmark model, we will need to find more anomalies in the data (if there are any and correct them). Reduce the dimensionality of the dataset using **`LDA`** - **`Linear Discriminant Analysis`** techique and test for the performance on the `train` and `test` datasets.
 
 ### **Evaluation Metrics**
 
-with `StratifiedKFold` cross-validation technique
+I would like to propose an evaluation metric called `Cross Validation Score`. The simplest way to use cross-validation is to call the `cross_val_score` helper function on the estimator and the dataset.
+
+Given, the problem is to develop a supervised multi-class classification model, the `cross_val_score` method uses `StratifiedKFold` cross-validation technique. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
+
+The model whose cross validation score is greater than the benchmark model will be my solution model.
 
 ### **Project Design**
