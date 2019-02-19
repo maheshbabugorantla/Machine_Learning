@@ -160,3 +160,42 @@ Given, the problem is to develop a supervised multi-class classification model, 
 The model whose cross validation score is greater than the benchmark model will be my solution model.
 
 ### **Project Design**
+
+Theoretical Workflow for designing the Solution Model
+
+- **Import the Training Dataset**
+  - Load the necessary libraries such as `numpy`, `pandas`
+  - Load the `data/train/train.csv` dataset
+  - Drop irrelevant columns
+
+- **Data Exploration**
+  - Find missing rows in the each column using `df.isnull().sum()`
+  - Obtain and Understand Descriptive Statistics
+
+- **Feature Engineering**
+  - Decipher more missing values from descriptive statistics (if any)
+  - Impute missing values using Custom Quantitative/Categorical Imputers
+  - Visualize per column distribution using histograms
+  - Find any anomalous data distributions from the plots
+  - Dummify Categorical Columns
+  - Scale all the columns either by using `z-scaling` (`StandardScaler`) or `min-max scaling` (`MinMaxScaler`) technique
+
+- **Evaluate Classification Models**
+  - Choose a few classification models
+  - Split the dataset into train/split test using `StratifiedKFold` cross-validation technique
+  - Score each classification model using `cross_val_score`
+  - Choose the classification model with best cross validation score
+
+- **Feature Transformation**
+  - Reduce the dimensionality of features
+    - Using LDA - Linear Discriminant Analysis (Best for multi-class classification)
+
+- **Tune the Classification Model**
+  - Use `GridSearchCV` to improve the accuracy
+
+- **Save the best model**
+  - with best prediction time and accuracy
+
+- **Final Inference and Conclusion**
+
+> Please check the [Notebook](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/Capstone_Project/Capstone-Project/Kaggle-Notebook.ipynb) to understand what I meant by Feature Engineering
