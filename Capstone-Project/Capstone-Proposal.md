@@ -17,6 +17,7 @@
     - [**Benchmark Model**](#benchmark-model)
     - [**Evaluation Metrics**](#evaluation-metrics)
     - [**Project Design**](#project-design)
+    - [**References**](#references)
 
 ### **Domain Background**
 
@@ -199,3 +200,19 @@ Theoretical Workflow for designing the Solution Model
 - **Final Inference and Conclusion**
 
 > Please check the [Notebook](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/Capstone_Project/Capstone-Project/Kaggle-Notebook.ipynb) to understand what I meant by Feature Engineering
+
+### **References**
+
+1. PetFinder.my Adoption Prediction. (n.d.). Retrieved from https://www.kaggle.com/c/petfinder-adoption-prediction
+
+2. Raschka, S. (2014, August 03). Linear Discriminant Analysis. Retrieved from https://sebastianraschka.com/Articles/2014_python_lda.html
+
+3. Cross-validation: Evaluating estimator performance¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/cross_validation.html
+
+4. Sklearn.metrics.f1_score¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html#sklearn.metrics.f1_score.html
+
+5. Sklearn.model_selection.cross_val_score¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
+
+6. Sklearn.model_selection.StratifiedKFold¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold.html
+
+7. Sklearn.base.TransformerMixin¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html
