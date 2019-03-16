@@ -38,14 +38,13 @@
   - [**Justification**](#justification)
   - [**Free-Form Visualization**](#free-form-visualization)
   - [**Reflection**](#reflection)
+    - [**Summary of Workflow Process**](#summary-of-workflow-process)
   - [**Improvement**](#improvement)
   - [**References**](#references)
 
 <a name="project-overview"></a>
 
 ## **Project Overview**
-
-> Student provides a high-level overview of the project in layman’s terms. Background information such as the problem domain, the project origin, and related data sets or input data is given.
 
 Each year, approximately 7.6 million companion animals enter the animal shelters nationwide (ASPCA). Of those, approximately 3.9 million are dogs and 3.4 million are cats. About 2.7 million shelter animals are adopted each year (1.4 million dogs and 1.3 million cats). This leaves around two-thirds of pets going unadopted.
 
@@ -58,8 +57,6 @@ I am big fan of pets. My personal motivation to solve this problem explicitly is
 <a name="problem-statement"></a>
 
 ## **Problem Statement**
-
-> The problem which needs to be solved is clearly defined. A strategy for solving the problem, including discussion of the expected solution, has been made.
 
 [PetFinder.my](https://www.petfinder.my/) has been Malaysia's leading animal welfare platform since 2008, with a database of more than 150,000 animals.
 PetFinder collaborates closely with animal lovers, media, corporations, and global organizations to improve animal welfare.
@@ -83,25 +80,19 @@ And, choose the one with best `cross_validation` score on the training dataset.
 
 >> Relevant Academic Research has been cited in the `References` section
 
-<br>
-
 <a name='metrics'></a>
 
 ## **Metrics**
-
-> Metrics used to measure performance of a model or result are clearly defined. Metrics are justified based on the characteristics of the problem.
 
 I would like to propose an evaluation metric called `Cross Validation Score`. The simplest way to use cross-validation is to call the `cross_val_score` helper function on the estimator and the dataset.
 
 Given, the problem is to develop a supervised multi-class classification model, the `cross_val_score` method uses `StratifiedKFold` cross-validation technique. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
 
-The model whose cross validation score is greater than the benchmark model will be my solution model.
+The model whose cross validation score is greater than the benchmark model and with a higher precision will be my solution model.
 
 <a name='data-exploration'></a>
 
 ## **Data Exploration**
-
-> If a dataset is present, features and calculated statistics relevant to the problem have been reported and discussed, along with a sampling of the data. In lieu of a dataset, a thorough description of the input space or input data has been made. Abnormalities or characteristics about the data or input that need to be addressed have been identified.
 
 The dataset to solve the above mentioned problem has been obtained as a part of Kaggle Challenge. In this problem, I will predict the speed at which a pet is adopted, based on the pet’s listing on PetFinder. Sometimes a profile represents a group of pets. In this case, the speed of adoption is determined by the speed at which all of the pets are adopted. The data included text, tabular, and image data.
 
@@ -151,8 +142,6 @@ Fee - Adoption fee ( 0 = `Free`)
 - `PhotoAmt` - Total uploaded photos for this pet
 
 - `Description` - Profile write-up for this pet. The primary language used is English, with some in Malay or Chinese.
-
-<br>
 
 <a name="adoptionspeed"></a>
 
@@ -247,8 +236,6 @@ However as mentioned above, the columns `Name` and `Description` are being dropp
 
 ## **Exploratory Visualization**
 
-> A visualization has been provided that summarizes or extracts a relevant characteristic or feature about the dataset or input data with thorough discussion. Visual cues are clearly defined.
-
 <a name='descriptive-statistics'></a>
 
 ### **Descriptive Statistics**
@@ -316,8 +303,6 @@ Because the `min` value in each of the above mentioned columns is `0`.
 
 ## **Algorithms and Techniques**
 
-> Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
-
 Predicting `AdoptionSpeed` of a pet animal in the PetFinder's Animal Database is a supervised multi-class classification problem. To predict `AdoptionSpeed` based on the training features of a pet, I would like to experiment with classification algorithms like
 
 1. Classfication and Regression Trees (CART)
@@ -345,8 +330,6 @@ Hence, I chose to use `kNN` classification model as my baseline model
 
 ## **Benchmark**
 
-> Student clearly defines a benchmark result or threshold for comparing performances of solutions obtained.
-
 As we know that the above mentioned prediction task is a supervised classification problem, we should use tree based classification models which typically outperform other classification models. Hence, I would like to use `kNN Classfier` algorithm as a benchmark and beat the benchmark performance both in terms of time to fit the model as well as increase in the prediction accuracy.
 
 Based on my previous experience with solving the classification problems I have observed that usually `XGBoost` is very consistent with giving better classification accuracy. Hence, I have hypothesized the same performance to be delivered by the `XGBoost` algorithm for the given problem.
@@ -358,13 +341,9 @@ Currently, the baseline prediction accuracy (without feature transformation) is 
 | KNeighborsClassifier | 1.01                     | 31.17%                    |
 | XGBoost              | 0.99                     | 38.01%                    |
 
-<br><br><br><br><br>
-
 <a name='data-preprocessing'></a>
 
 ## **Data Preprocessing**
-
-> All preprocessing steps have been clearly documented. Abnormalities or characteristics about the data or input that needed to be addressed have been corrected. If no data preprocessing is necessary, it has been clearly justified.
 
 <a name='transforming-missing-values-to-none'></a>
 
@@ -418,8 +397,6 @@ To impute the `Quantitative` columns (`Age`), I have used respective `mean` valu
 
 To impute the `Categorical` columns (`Breed1`, `Color1`, `Color2`), I I have used the most frequently occuring (`mode`) category for respective categorical columns.
 
-<br><br><br><br><br><br><br><br><br><br>
-
 <a name='anomalies-in-dogs-and-cats-data'></a>
 
 ### **3. Anomalies in Dogs and Cats Data**
@@ -451,8 +428,6 @@ To correct such anomalies we need to make sure that all the rows whose `Breed1` 
 <a name='implementation'></a>
 
 ## **Implementation**
-
-> The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented. Complications that occurred during the coding process are discussed.
 
 Theoretical Workflow for implementing the Solution Model
 
@@ -493,8 +468,6 @@ Theoretical Workflow for implementing the Solution Model
 
 ## **Refinement**
 
-> The process of improving upon the algorithms and techniques used is clearly documented. Both the initial and final solutions are reported, along with intermediate solutions, if necessary.
-
 Steps used to improve the prediction accuracy of the classification model.
 
 1. PreProcess the Data (as mentioned in the Feature Engineering)
@@ -522,15 +495,36 @@ Steps used to improve the prediction accuracy of the classification model.
 
 ## **Model Evaluation and Validation**
 
-> The final model’s qualities — such as parameters — are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+`GridSearch Cross-Validation` technique is utilized to evaluate the `XGBoost` model parameters and pick the best parameters that will give a higher `cross-validation` score of `59.6%` for the classification model.
 
+Here are the parameters that give us the best cross validation score
 
+| XGBClassifier Parameter | Value              |
+|-------------------------|--------------------|
+| `objective`             | multi:softmax      |
+| `subsample`             | 0.7000000000000001 |
+| `max_depth`             | 5                  |
+| `colsample_bytree`      | 0.5                |
+| `scale_pos_weight`      | 0.5                |
+
+The classification model can be called robust if it has a higher precision and low recall in my scenario. It is very highly required for the pet adoption agencies to precisely predict the adoption speed of a pet animal given its features to optimize their logistics. It is not okay to have higher recall because that will lead to a bad logistics management as well as it will be a bad experience for the pet owners
+
+The model with a higher `F1 Score` will be an ideal robust model because it is higher precision and lower recall
+
+Currently the model has an `F1 Score` of `68.08%` which is an indication of higher precision.
 
 <a name='justification'></a>
 
 ## **Justification**
 
-> The final results are compared to the benchmark result or threshold with some type of statistical analysis. Justification is made as to whether the final model and solution is significant enough to have adequately solved the problem.
+My solution model has a way better cross validation score and lesser model fit time than benchmark model
+
+| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
+|----------------------|--------------------------|---------------------------|
+| KNeighborsClassifier | 1.01                     | 31.17%                    |
+| XGBoost              | 0.023                    | 59.60%
+
+As we can observe that the solution model has much better prediction accuracy than just educated guessing or benchmark model. Hence, the solution model should be able to provide significant help to the pet adoption agency in predicting a pet animals adoption speed.
 
 <a name='free-form-visualization'></a>
 
@@ -538,19 +532,35 @@ Steps used to improve the prediction accuracy of the classification model.
 
 > A visualization has been provided that emphasizes an important quality about the project with thorough discussion. Visual cues are clearly defined.
 
+![XGBoost Graph](images/xgboost-tree.png)
 
+From the above XGBoost Graph Tree Visualization we can observe that there are two derived features `f0` and `f2` that influence a significant portion of the classification accuracy. Here is an another plot that corraborates the above evidence
+
+![Feature Importance Plot](images/feature_importance_plot.png)
+
+According the research articles referenced below, what makes a pet more adoptable is its `cuteness`, `health` condition and if it is not `neutered`. Because I have discarded the `cuteness` (a derived feature from pet images) to make the problem simpler to solve. It is very possible that those 2 features (`f0` and `f2`) that significantly influence the adoption speed should be a pet's `Health` and `Sterilized` features (or derived features using both the primitive features).
 
 <a name='reflection'></a>
 
 ## **Reflection**
 
-> Student adequately summarizes the end-to-end problem solution and discusses one or two particular aspects of the project they found interesting or difficult.
+### **Summary of Workflow Process**
+
+1. Initially, reviewed prior literature using research journals to gain a superficial understanding of the pet adoption problem
+2. Download the public dataset from Kaggle that helps to solve the problem
+3. Determine and resolve anomalies/missing data if any (PreProcessing step)
+4. Create a Baseline model to prove that the problem is solvable
+5. Use a more complex model than baseline model to improve the prediction accuracy of the classification model
+
+Most of the project was very exciting to solve. However to make a giant leap in improving the prediction accuracy I had to investigate for anomalies in the dataset more closely which was the difficult and exciting part of the problem. Rest of the problem followed a typical procedure used to create a good classification model.
 
 <a name='improvement'></a>
 
 ## **Improvement**
 
-> Discussion is made as to how one aspect of the implementation could be improved. Potential solutions resulting from these improvements are considered and compared/contrasted to the current solution.
+Initially, to simplify the problem at hand I have ignored a few columns as irrelevant. Among those irrelevant columns are `photos` of a pet and `description` of a pet. From the literature review of the previously published articles on pet adoption it is found that a cuter pet animal has a higher possibility of getting adopted faster and also pets that are not `neutered` are in high-demand for adoption.
+
+From photos, we can compute the cuteness factor of a pet animal and inject those findings as a new feature into our existing feature set as well as perform sentiment analysis of the pet description to extract the sentiment score and use this newly derived feature to help improve the prediction accuracy. The aforementioned derived features when augmented with the original dataset should significantly improve the prediction accuracy.
 
 <a name='references'></a>
 
