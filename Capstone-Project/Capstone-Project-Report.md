@@ -20,15 +20,25 @@
   - [**Exploratory Visualization**](#exploratory-visualization)
     - [**Descriptive Statistics**](#descriptive-statistics)
     - [**Dataset Distribution (per class)**](#dataset-distribution-per-class)
+    - [**Understanding the Descriptive Statistics**](#understanding-the-descriptive-statistics)
   - [**Algorithms and Techniques**](#algorithms-and-techniques)
+    - [**Choosing Baseline Model**](#choosing-baseline-model)
   - [**Benchmark**](#benchmark)
   - [**Data Preprocessing**](#data-preprocessing)
+    - [**1. Transforming Missing Values to None**](#1-transforming-missing-values-to-none)
+    - [**2. Imputing the Missing Values**](#2-imputing-the-missing-values)
+      - [**Quantitative Columns**](#quantitative-columns)
+      - [**Categorical Columns**](#categorical-columns)
+    - [**3. Anomalies in Dogs and Cats Data**](#3-anomalies-in-dogs-and-cats-data)
+      - [**Anomalies in Dogs Data**](#anomalies-in-dogs-data)
+      - [**Anomalies in Cats Data**](#anomalies-in-cats-data)
   - [**Implementation**](#implementation)
+  - [**Refinement**](#refinement)
   - [**Model Evaluation and Validation**](#model-evaluation-and-validation)
   - [**Justification**](#justification)
   - [**Free-Form Visualization**](#free-form-visualization)
   - [**Reflection**](#reflection)
-  - [**Functionality**](#functionality)
+  - [**Improvement**](#improvement)
   - [**References**](#references)
 
 <a name="project-overview"></a>
@@ -44,8 +54,6 @@ This uncertainty of the unadopted pets future is further worsened because many a
 If at all we can find those stray animals a forever home, many precious lives can be given a new life that they truly deserve and in turn we will see more happier families.
 
 I am big fan of pets. My personal motivation to solve this problem explicitly is because doing so will make the [PetFinder.my](https://www.petfinder.my/) Agency streamline their pet adoption services which in turn help more pets being adopted. Being able to predict how quickly a pet will be adopted will help pet adoption agencies optimize their logistics and operate more efficiently reducing the percentage of unadopted pets.
-
-<br>
 
 <a name="problem-statement"></a>
 
@@ -66,14 +74,16 @@ It is a classificiation problem because a pet's adoption speed is classified int
 
 A relevant potential solution is to use a few classification algorithms such as
 
-- k-Means Clustering
+- k-Means Clustering (Baseline model)
 - DBSCAN
 - Random Forests
-- XGBoost (Baseline model)
+- XGBoost
 
 And, choose the one with best `cross_validation` score on the training dataset.
 
 >> Relevant Academic Research has been cited in the `References` section
+
+<br>
 
 <a name='metrics'></a>
 
@@ -86,8 +96,6 @@ I would like to propose an evaluation metric called `Cross Validation Score`. Th
 Given, the problem is to develop a supervised multi-class classification model, the `cross_val_score` method uses `StratifiedKFold` cross-validation technique. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
 
 The model whose cross validation score is greater than the benchmark model will be my solution model.
-
-<br><br>
 
 <a name='data-exploration'></a>
 
@@ -143,6 +151,8 @@ Fee - Adoption fee ( 0 = `Free`)
 - `PhotoAmt` - Total uploaded photos for this pet
 
 - `Description` - Profile write-up for this pet. The primary language used is English, with some in Malay or Chinese.
+
+<br>
 
 <a name="adoptionspeed"></a>
 
@@ -257,6 +267,8 @@ Glimpse of Descriptive Statistics of the dataset
 | **max**   | 2        | 21.25    | 307     | 307     | 3        | 7       | 7       | 7       | 4            | 3         | 3          | 3        | 3          | 3        | 20       | 4             |
 
 
+> Open [this](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#descriptive-statistics) to clearly see descriptive statistics
+
 ### **Dataset Distribution (per class)**
 
 | Adoption Speed | Data Points Size |
@@ -269,11 +281,65 @@ Glimpse of Descriptive Statistics of the dataset
 
 From the above observations we can determine that the dataset is almost **`imbalanced`**.
 
+<a name='understanding-descriptive-statistics'></a>
+
+### **Understanding the Descriptive Statistics**
+
+Just by glancing at the above table, columns `Age`, `Breed1`, `Color 2` & `Color 3` standout especially.
+
+Because the `min` value in each of the above mentioned columns is `0`.
+
+- **`Age`** of `0` years is an abnormal value
+  - This indicates that the value for age is missing
+  - Need to replace the `0` with `None`
+
+- **`Breed1`** number `0` is an abnormal value.
+  - `BreedID` for Dogs ranges from `1` - `241`
+  - `BreedID` for Cats ranges from `242` - `307`
+  - `Breed2` value of `0` indicates the pet is pure breed
+
+- **`Color2`** & **`Color3`** has color `0`
+
+  - `ColorID` ranges from `1` - `7`
+
+      | Color  | ColorID |
+      |--------|---------|
+      | Black  | `1`     |
+      | Brown  | `2`     |
+      | Golden | `3`     |
+      | Yellow | `4`     |
+      | Cream  | `5`     |
+      | Gray   | `6`     |
+      | White  | `7`     |
+
 <a name='algorithms-and-techniques'></a>
 
 ## **Algorithms and Techniques**
 
 > Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
+
+Predicting `AdoptionSpeed` of a pet animal in the PetFinder's Animal Database is a supervised multi-class classification problem. To predict `AdoptionSpeed` based on the training features of a pet, I would like to experiment with classification algorithms like
+
+1. Classfication and Regression Trees (CART)
+2. kNN Classifier (**Baseline Model**)
+3. Support Vector Machines (SVM)
+4. Random Forests
+5. XGBoost
+
+to predict the adaptability of a pet.
+
+
+<a name='choosing-baseline-model'></a>
+
+### **Choosing Baseline Model**
+
+A very crude baseline model can be just an educated guess based on the `multi-class` prediction variable distribution. Using the dataset distribution as mentioned above, just by guessing the `AdoptionSpeed` as `4` will get us an accuracy of `27.99%`.
+
+Any of the classification models (from the above) that will beat the aforementioned crude prediction model (based on educated guessing) even by a narrow margin will be my baseline classification model.
+
+Given the number of training features of a pet, `CART` classification model is very crude to capture enough variance in the given dataset.
+
+Hence, I chose to use `kNN` classification model as my baseline model
 
 <a name='benchmark'></a>
 
@@ -281,11 +347,106 @@ From the above observations we can determine that the dataset is almost **`imbal
 
 > Student clearly defines a benchmark result or threshold for comparing performances of solutions obtained.
 
+As we know that the above mentioned prediction task is a supervised classification problem, we should use tree based classification models which typically outperform other classification models. Hence, I would like to use `kNN Classfier` algorithm as a benchmark and beat the benchmark performance both in terms of time to fit the model as well as increase in the prediction accuracy.
+
+Based on my previous experience with solving the classification problems I have observed that usually `XGBoost` is very consistent with giving better classification accuracy. Hence, I have hypothesized the same performance to be delivered by the `XGBoost` algorithm for the given problem.
+
+Currently, the baseline prediction accuracy (without feature transformation) is as follows
+
+| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
+|----------------------|--------------------------|---------------------------|
+| KNeighborsClassifier | 1.01                     | 31.17%                    |
+| XGBoost              | 0.99                     | 38.01%                    |
+
+<br><br><br><br><br>
+
 <a name='data-preprocessing'></a>
 
 ## **Data Preprocessing**
 
 > All preprocessing steps have been clearly documented. Abnormalities or characteristics about the data or input that needed to be addressed have been corrected. If no data preprocessing is necessary, it has been clearly justified.
+
+<a name='transforming-missing-values-to-none'></a>
+
+### **1. Transforming Missing Values to None**
+
+Lets [revisit](#understanding-the-descriptive-statistics) the abnormalities detected while examining the descriptive statistics again. The aforementioned abornamilities are possibly present in the data due to some human error or it is missing data.
+
+> If no documentation is available, some common values used instead of missing values are:
+> - **0** (for numerical values)
+> - **unknown** or **Unknown** (for categorical variables
+> - **?** (for categorical variables)
+
+Number of missing values after transforming the missing values (abnormal) to `None` are
+
+| Column        | Missing Values Count |
+|---------------|----------------------|
+|Type           |           0          |
+|Age            |         179          |
+|Breed1         |           5          |
+|Breed2         |           0          |
+|Gender         |           0          |
+|Color1         |           0          |
+|Color2         |        4471          |
+|Color3         |       10604          |
+|MaturitySize   |           0          |
+|FurLength      |           0          |
+|Vaccinated     |           0          |
+|Dewormed       |           0          |
+|Sterilized     |           0          |
+|Health         |           0          |
+|Quantity       |           0          |
+|AdoptionSpeed  |           0          |
+
+The maximum number of rows that will be missing if we chose to drop the rows with missing values in a column is `10604` (i.e. we will lose around `70.73%` data).
+
+Losing `70.73%` data is not ideal to solve the problem at hand. We need to impute the missing data (columns) using custom `Quantitative` and `Categorical` imputing methods.
+
+<a name='imputing-the-missing-values'></a>
+
+### **2. Imputing the Missing Values**
+
+<a name='quantitative-columns'></a>
+
+#### **Quantitative Columns**
+
+To impute the `Quantitative` columns (`Age`), I have used respective `mean` values per column to impute the missing values.
+
+<a name='categorical-columns'></a>
+
+#### **Categorical Columns**
+
+To impute the `Categorical` columns (`Breed1`, `Color1`, `Color2`), I I have used the most frequently occuring (`mode`) category for respective categorical columns.
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<a name='anomalies-in-dogs-and-cats-data'></a>
+
+### **3. Anomalies in Dogs and Cats Data**
+
+<a name='anomalies-in-dogs-data'></a>
+
+#### **Anomalies in Dogs Data**
+
+![Dogs Data Distribution](images/dogs_data_distribution_plot.png)
+
+In 4<sup>th</sup> row, 3<sup>rd</sup> column, `Type` column should be `1` for all the dog breeds. However, we can see that some rows of data with `dog` breeds have been marked as `cats`.
+
+There are `36` dogs that are mislabelled as cats
+
+<a name='anomalies-in-cats-data'></a>
+
+#### **Anomalies in Cats Data**
+
+![Cats Data Distribution](images/cats_data_distribution_plot.png)
+
+In 4<sup>th</sup> row, 3<sup>rd</sup> column, `Type` column should be `2` for all the cat breeds. However, we can see that almost `50%` of data rows with `cat` breeds have been marked as `dogs`.
+
+The above mentioned anomaly can assumed to be because of human errors often seen in manual data collection/entry process
+
+There are `5927` cats that are mislabelled as dogs.
+
+To correct such anomalies we need to make sure that all the rows whose `Breed1` values belong to cats breeds need to be marked with `2` and likewise mark dog breeds with `1`
 
 <a name='implementation'></a>
 
@@ -293,11 +454,77 @@ From the above observations we can determine that the dataset is almost **`imbal
 
 > The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented. Complications that occurred during the coding process are discussed.
 
+Theoretical Workflow for implementing the Solution Model
+
+- **Import the Training Dataset**
+  - Load the necessary libraries such as `numpy`, `pandas`
+  - Load the `data/train/train.csv` dataset
+  - Drop irrelevant columns
+
+- **Data Exploration**
+  - Find missing rows in the each column using `df.isnull().sum()`
+  - Obtain and Understand Descriptive Statistics
+
+- **Feature Engineering**
+  - Decipher more missing values from descriptive statistics (if any)
+  - Impute missing values using Custom Quantitative/Categorical Imputers
+  - Visualize per column distribution using histograms
+  - Find any anomalous data distributions from the plots
+  - Dummify Categorical Columns
+  - Scale all the columns either by using `z-scaling` (`StandardScaler`) or `min-max scaling` (`MinMaxScaler`) technique
+
+- **Evaluate Classification Models**
+  - Choose a few classification models
+  - Split the dataset into train/split test using `StratifiedKFold` cross-validation technique
+  - Score each classification model using `cross_val_score`
+  - Choose the classification model with best cross validation score
+
+- **Feature Transformation**
+  - Reduce the dimensionality of features
+    - Using LDA - Linear Discriminant Analysis (Best for multi-class classification)
+
+- **Tune the Classification Model**
+  - Use `GridSearchCV` to improve the accuracy
+
+- **Save the best model**
+  - with best prediction time and accuracy
+
+<a name='refinement'></a>
+
+## **Refinement**
+
+> The process of improving upon the algorithms and techniques used is clearly documented. Both the initial and final solutions are reported, along with intermediate solutions, if necessary.
+
+Steps used to improve the prediction accuracy of the classification model.
+
+1. PreProcess the Data (as mentioned in the Feature Engineering)
+2. Transform the input features to reduce the dimensionality of the `input` data using `LDA - Linear Discriminant Analysis (Best for multi-class classification)`
+3. Used `n_components = 5` to transform the data using LDA
+4. Obtain the prediction accuracy of classification using kNN Classifier (baseline model)
+5. Use `GridSearchCV` method to best parameter set for `XGBoost Classifier` algorithm that will result in a better prediction accuracy than `kNN Classifier`
+
+**Initial Results without Feature Transformation**
+
+| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
+|----------------------|--------------------------|---------------------------|
+| KNeighborsClassifier | 1.01                     | 31.17%                    |
+| XGBoost              | 0.99                     | 38.01%                    |
+
+**Final Results without Feature Transformation**
+
+| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
+|----------------------|--------------------------|---------------------------|
+| KNeighborsClassifier | 0.03                     | 57.35%                    |
+| XGBoost              | 0.023                    | 59.60%                    |
+
+
 <a name='model-evaluation-and-validation'></a>
 
 ## **Model Evaluation and Validation**
 
 > The final model’s qualities — such as parameters — are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+
+
 
 <a name='justification'></a>
 
@@ -311,15 +538,17 @@ From the above observations we can determine that the dataset is almost **`imbal
 
 > A visualization has been provided that emphasizes an important quality about the project with thorough discussion. Visual cues are clearly defined.
 
+
+
 <a name='reflection'></a>
 
 ## **Reflection**
 
 > Student adequately summarizes the end-to-end problem solution and discusses one or two particular aspects of the project they found interesting or difficult.
 
-<a name='functionality'></a>
+<a name='improvement'></a>
 
-## **Functionality**
+## **Improvement**
 
 > Discussion is made as to how one aspect of the implementation could be improved. Potential solutions resulting from these improvements are considered and compared/contrasted to the current solution.
 
