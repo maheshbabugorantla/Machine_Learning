@@ -28,7 +28,7 @@ This is how the folder hierarchy should look like
     - **train_metadata**
     - **train_sentiment**
 
-2. Open the Jupyter Notebook `Kaggle-Notebook.ipynb` and run all the cells to the replicate the same results as reported in the [`Capstone-Project-Report.md`](Capstone-Project-Report.md)
+2. Open the Jupyter Notebook [`Capstone-Project.ipynb`](Capstone-Project.ipynb) and run all the cells to the replicate the same results as reported in the [`Capstone-Project-Report.md`](Capstone-Project-Report.md)
 
 ## Tools and Libraries used
 
