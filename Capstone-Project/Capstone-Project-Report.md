@@ -10,6 +10,7 @@
   - [**Problem Statement**](#problem-statement)
   - [**Metrics**](#metrics)
   - [**Data Exploration**](#data-exploration)
+    - [**Dataset Sample**](#dataset-sample)
     - [**Data Fields**](#data-fields)
     - [**AdoptionSpeed**](#adoptionspeed)
     - [**Images**](#images)
@@ -95,6 +96,22 @@ The model whose cross validation score is greater than the benchmark model and w
 ## **Data Exploration**
 
 The dataset to solve the above mentioned problem has been obtained as a part of Kaggle Challenge. In this problem, I will predict the speed at which a pet is adopted, based on the pet’s listing on PetFinder. Sometimes a profile represents a group of pets. In this case, the speed of adoption is determined by the speed at which all of the pets are adopted. The data included text, tabular, and image data.
+
+<a name='dataset-sample'></a>
+
+### **Dataset Sample**
+
+> Removed `Description` Column due to space constraints
+
+| Type | Name | Age | Breed1 | Breed2 | Gender | Color1 | Color2 | Color3 | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health |  Quantity | Fee | State | RescuerID | VideoAmt | PetID | PhotoAmt | AdoptionSpeed |
+| -- | ----- | ---------- | ---- | ------- | ------- | ------- | ------- | ------- | ------- | ------------- | ---------- | ----------- | --------- | ----------- | ------- | --------- | ---- | ------ | ------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- | --------------- |
+| 2 | Nibble | 3 | 299 | 0 | 1 | 1 | 7 | 0 | 1 | 1 | 2 | 2 | 2 | 1 | 1 | 100 | 41326 | 8480853f516546f6cf33aa88cd76c379 | 0 | 86e1089a3 | 1 | 2 |
+| 2 | No Name Yet | 1 | 265 | 0 | 1 | 1 | 2 | 0 | 2 | 2 | 3 | 3 | 3 | 1 | 1 | 0 | 41401 | 3082c7125d8fb66f7dd4bff4192c8b14 | 0 | 6296e909a | 2 | 0 |
+| 1 | Brisco | 1 | 307 | 0 | 1 | 2 | 7 | 0 | 2 | 2 | 1 | 1 | 2 | 1 | 1 | 0 | 41326 | fa90fa5b1ee11c86938398b60abc32cb | 0 | 3422e4906 | 7 | 3 |
+| 1 | Miko | 4 | 307 | 0 | 2 | 1 | 2 | 0 | 2 | 1 | 1 | 1 | 2 | 1 | 1 | 150 | 41401 | 9238e4f44c71a75282e62f7136c6b240 | 0 | 5842f1ff5 | 8 | 2 |
+| 1 | Hunter | 1 | 307 | 0 | 1 | 1 | 0 | 0 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 0 | 41326 | 95481e953f8aed9ec3d16fc4509537e8 | 0 | 850a43f90 | 3 | 2 |
+
+> Open [this](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#dataset-sample) to clearly see a sample of the dataset
 
 <a name="data-fields"></a>
 
