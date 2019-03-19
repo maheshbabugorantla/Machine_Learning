@@ -9,6 +9,7 @@
   - [**Project Overview**](#project-overview)
   - [**Problem Statement**](#problem-statement)
   - [**Metrics**](#metrics)
+    - [**Choosing the Evaluation Metric**](#choosing-the-evaluation-metric)
   - [**Data Exploration**](#data-exploration)
     - [**Dataset Sample**](#dataset-sample)
     - [**Data Fields**](#data-fields)
@@ -85,6 +86,56 @@ And, choose the one with best `cross_validation` score on the training dataset.
 
 ## **Metrics**
 
+### **Choosing the Evaluation Metric**
+
+Given, the problem is a supervised `multi-class` classification problem.
+
+Here are a list of model evaluation metrics available for us
+
+> Source: https://www.sciencedirect.com/science/article/pii/S0306457309000259
+
+$\mu$ & $M$ indices represent `micro-` and `macro-` averaging
+
+1. `Average Accuracy` - Average per-class effectiveness of a classifier
+2. `Error Rate` - The average per-class classification error
+3. `Precision$_\mu$` - Agreement of the data class labels with those of a classifiers if calculated from sums of per-text decisions
+4. `Recall$_\mu$` - Effectiveness of a classifier to identify class labels if calculated from sums of per-text decisions
+5. `FScore$_\mu$` - Relations between data's positive labels and those given by a classifier based on sums of per-text decisions
+6. `Precision$_M$` - An average per-class agreement of the data class labels with those of a classifiers
+7. `Recall$_M$` - An average per-class effectiveness of a classifier to identify class labels
+8. `FScore$_M$` - Relations between data's positive labels and those given by a classifier based on a per-class average
+
+From the above list we have broadly two types of metrics - `micro-average` and `macro-average`
+
+Most commonly used metrics for multi-classes are **`F1 score`**, **`Average Accuracy`**, **`Log-loss`**. There is yet no well-developed **`ROC-AUC`** score for `multi-class`.
+
+Among the 3 different metrics available to use for the given problem I chose **`Log-loss`** metric to evaluate my classification model
+
+**`Log-Loss`** for multi-class is defined as:
+
+$$log\_loss = -(1/N){\sum_{i=1}^{N}\sum_{j=1}^{M}y_{ij}log(p_{ij})}$$
+
+Where,
+
+$N$ - Number of rows in Test Set <br>
+$M$ - Number of Fault Delivery Classes <br>
+$y_{ij}$ - $1$ if observation belongs to class $\it{j}$; else $0$ <br>
+$p_{ij}$ - Predicted Probability that observation belongs to class $\it{j}$
+
+> - In **Micro-average** method, you sum up the individual true positives, false positives, and false negatives of the system for different sets and then apply them to get the statistics.
+> - In **Macro-average**, you take the average of the precision and recall of the system on different sets
+
+**Micro-average** is preferable because of the class `imbalance` problem
+
+Using `log_loss` metric in `scikit-learn`
+
+```python
+from sklearn.metrics import log_loss, make_scorer
+
+# Multi-class classification Scoring Function
+scoring_function = make_scorer(log_loss, needs_proba=True)
+```
+
 I would like to propose an evaluation metric called `Cross Validation Score`. The simplest way to use cross-validation is to call the `cross_val_score` helper function on the estimator and the dataset.
 
 Given, the problem is to develop a supervised multi-class classification model, the `cross_val_score` method uses `StratifiedKFold` cross-validation technique. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
@@ -101,15 +152,15 @@ The dataset to solve the above mentioned problem has been obtained as a part of 
 
 ### **Dataset Sample**
 
-> Removed `Description` Column due to space constraints
+> Removed `Description`, `PetID` and `RescuerID` Column due to space constraints
 
-| Type | Name | Age | Breed1 | Breed2 | Gender | Color1 | Color2 | Color3 | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health |  Quantity | Fee | State | RescuerID | VideoAmt | PetID | PhotoAmt | AdoptionSpeed |
-| -- | ----- | ---------- | ---- | ------- | ------- | ------- | ------- | ------- | ------- | ------------- | ---------- | ----------- | --------- | ----------- | ------- | --------- | ---- | ------ | ------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- | --------------- |
-| 2 | Nibble | 3 | 299 | 0 | 1 | 1 | 7 | 0 | 1 | 1 | 2 | 2 | 2 | 1 | 1 | 100 | 41326 | 8480853f516546f6cf33aa88cd76c379 | 0 | 86e1089a3 | 1 | 2 |
-| 2 | No Name Yet | 1 | 265 | 0 | 1 | 1 | 2 | 0 | 2 | 2 | 3 | 3 | 3 | 1 | 1 | 0 | 41401 | 3082c7125d8fb66f7dd4bff4192c8b14 | 0 | 6296e909a | 2 | 0 |
-| 1 | Brisco | 1 | 307 | 0 | 1 | 2 | 7 | 0 | 2 | 2 | 1 | 1 | 2 | 1 | 1 | 0 | 41326 | fa90fa5b1ee11c86938398b60abc32cb | 0 | 3422e4906 | 7 | 3 |
-| 1 | Miko | 4 | 307 | 0 | 2 | 1 | 2 | 0 | 2 | 1 | 1 | 1 | 2 | 1 | 1 | 150 | 41401 | 9238e4f44c71a75282e62f7136c6b240 | 0 | 5842f1ff5 | 8 | 2 |
-| 1 | Hunter | 1 | 307 | 0 | 1 | 1 | 0 | 0 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 0 | 41326 | 95481e953f8aed9ec3d16fc4509537e8 | 0 | 850a43f90 | 3 | 2 |
+| **Type** | **Name** | Age | Breed1 | Breed2 | Gender | Color1 | Color2 | Color3 | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health |  Quantity | Fee | State | VideoAmt | PhotoAmt | AdoptionSpeed |
+| :---------------------------: | :-------------------------------: | :---------------------: | :------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------------: | :------------------: | :-------------------: | :-----------------: | :-------------------: | :---------------: | :-----------------: | :------------: | :--------------: | :---------------------------------------: | :-----------------: | :---------------------: | :----------------: |
+| 2 | Nibble | 3 | 299 | 0 | 1 | 1 | 7 | 0 | 1 | 1 | 2 | 2 | 2 | 1 | 1 | 100 | 41326 | 0 | 1 | 2 |
+| 2 | No Name Yet | 1 | 265 | 0 | 1 | 1 | 2 | 0 | 2 | 2 | 3 | 3 | 3 | 1 | 1 | 0 | 41401 | 0 | 2 | 0 |
+| 1 | Brisco | 1 | 307 | 0 | 1 | 2 | 7 | 0 | 2 | 2 | 1 | 1 | 2 | 1 | 1 | 0 | 41326 | 0 | 7 | 3 |
+| 1 | Miko | 4 | 307 | 0 | 2 | 1 | 2 | 0 | 2 | 1 | 1 | 1 | 2 | 1 | 1 | 150 | 41401 | 0 | 8 | 2 |
+| 1 | Hunter | 1 | 307 | 0 | 1 | 1 | 0 | 0 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 0 | 41326 | 0 | 3 | 2 |
 
 > Open [this](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#dataset-sample) to clearly see a sample of the dataset
 
@@ -468,8 +519,9 @@ Theoretical Workflow for implementing the Solution Model
 - **Evaluate Classification Models**
   - Choose a few classification models
   - Split the dataset into train/split test using `StratifiedKFold` cross-validation technique
-  - Score each classification model using `cross_val_score`
+  - Score each classification model using `cross_val_score` and `log_loss` scoring function
   - Choose the classification model with best cross validation score
+    - The lower the `log_loss` score the better the classification model is
 
 - **Feature Transformation**
   - Reduce the dimensionality of features
@@ -595,7 +647,7 @@ From photos, we can compute the cuteness factor of a pet animal and inject those
 
 6. Cross-validation: Evaluating estimator performance¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/cross_validation.html
 
-7. Sklearn.metrics.f1_score¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html#sklearn.metrics.f1_score.html
+7. Sklearn.metrics.log_loss¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html#sklearn.metrics.log_loss
 
 8. Sklearn.model_selection.cross_val_score¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
 
@@ -604,3 +656,7 @@ From photos, we can compute the cuteness factor of a pet animal and inject those
 10. Sklearn.base.TransformerMixin¶. (n.d.). Retrieved from https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html
 
 11. Ozdemir, S., & Susarla, D. (2018). Feature engineering made easy: Identify unique features from your dataset in order to build powerful machine learning systems. Birmingham, UK: Packt Publishing
+
+12. Swalin, A., & Swalin, A. (2018, May 02). Choosing the Right Metric for Evaluating Machine Learning Models - Part 2. Retrieved from https://medium.com/usf-msds/choosing-the-right-metric-for-evaluating-machine-learning-models-part-2-86d5649a5428
+
+13. Sokolova, M., & Lapalme, G. (2009). A systematic analysis of performance measures for classification tasks. Information Processing & Management, 45(4), 427-437. doi:10.1016/j.ipm.2009.03.002
