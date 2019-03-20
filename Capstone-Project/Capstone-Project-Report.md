@@ -23,7 +23,7 @@
     - [**Descriptive Statistics**](#descriptive-statistics)
     - [**Dataset Distribution (per class)**](#dataset-distribution-per-class)
     - [**Understanding the Descriptive Statistics**](#understanding-the-descriptive-statistics)
-    - [**Data Distribution Plots (Raw and Processed Data)**](#data-distribution-plots-raw-and-processed-data)
+    - [**Data Distribution Plot**](#data-distribution-plot)
     - [**Feature Correlation Heatmap (Dogs and Cats)**](#feature-correlation-heatmap-dogs-and-cats)
   - [**Algorithms and Techniques**](#algorithms-and-techniques)
     - [**Choosing Baseline Model**](#choosing-baseline-model)
@@ -37,6 +37,7 @@
       - [**Anomalies in Dogs Data**](#anomalies-in-dogs-data)
       - [**Anomalies in Cats Data**](#anomalies-in-cats-data)
   - [**Implementation**](#implementation)
+    - [**Challenges with Data**](#challenges-with-data)
   - [**Refinement**](#refinement)
   - [**Model Evaluation and Validation**](#model-evaluation-and-validation)
   - [**Justification**](#justification)
@@ -100,12 +101,12 @@ $\mu$ & $M$ indices represent `micro-` and `macro-` averaging
 
 1. `Average Accuracy` - Average per-class effectiveness of a classifier
 2. `Error Rate` - The average per-class classification error
-3. `Precision$_\mu$` - Agreement of the data class labels with those of a classifiers if calculated from sums of per-text decisions
-4. `Recall$_\mu$` - Effectiveness of a classifier to identify class labels if calculated from sums of per-text decisions
-5. `FScore$_\mu$` - Relations between data's positive labels and those given by a classifier based on sums of per-text decisions
-6. `Precision$_M$` - An average per-class agreement of the data class labels with those of a classifiers
-7. `Recall$_M$` - An average per-class effectiveness of a classifier to identify class labels
-8. `FScore$_M$` - Relations between data's positive labels and those given by a classifier based on a per-class average
+3. `Precision`$_\mu$ - Agreement of the data class labels with those of a classifiers if calculated from sums of per-text decisions
+4. `Recall`$_\mu$ - Effectiveness of a classifier to identify class labels if calculated from sums of per-text decisions
+5. `FScore`$_\mu$ - Relations between data's positive labels and those given by a classifier based on sums of per-text decisions
+6. `Precision`$_M$ - An average per-class agreement of the data class labels with those of a classifiers
+7. `Recall`$_M$ - An average per-class effectiveness of a classifier to identify class labels
+8. `FScore`$_M$ - Relations between data's positive labels and those given by a classifier based on a per-class average
 
 From the above list we have broadly two types of metrics - `micro-average` and `macro-average`
 
@@ -119,13 +120,16 @@ $$log\_loss = -(1/N){\sum_{i=1}^{N}\sum_{j=1}^{M}y_{ij}log(p_{ij})}$$
 
 Where,
 
-$N$ - Number of rows in Test Set <br>
-$M$ - Number of Fault Delivery Classes <br>
-$y_{ij}$ - $1$ if observation belongs to class $\it{j}$; else $0$ <br>
+$N$ - Number of rows in Test Set
+
+$M$ - Number of Fault Delivery Classes
+
+$y_{ij}$ - $1$ if observation belongs to class $\it{j}$; else $0$
+
 $p_{ij}$ - Predicted Probability that observation belongs to class $\it{j}$
 
-> - In **Micro-average** method, you sum up the individual true positives, false positives, and false negatives of the system for different sets and then apply them to get the statistics.
-> - In **Macro-average**, you take the average of the precision and recall of the system on different sets
+- In **Micro-average** method, you sum up the individual true positives, false positives, and false negatives of the system for different sets and then apply them to get the statistics.
+- In **Macro-average**, you take the average of the precision and recall of the system on different sets
 
 **Micro-average** is preferable because of the class `imbalance` problem
 
@@ -164,13 +168,13 @@ The dataset to solve the above mentioned problem has been obtained as a part of 
 | 1 | Miko | 4 | 307 | 0 | 2 | 1 | 2 | 0 | 2 | 1 | 1 | 1 | 2 | 1 | 1 | 150 | 41401 | 0 | 8 | 2 |
 | 1 | Hunter | 1 | 307 | 0 | 1 | 1 | 0 | 0 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 0 | 41326 | 0 | 3 | 2 |
 
-> Open [this](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#dataset-sample) to clearly see a sample of the dataset
+Open [***this***](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#dataset-sample) to clearly see a sample of the dataset
 
 <a name="data-fields"></a>
 
 ### **Data Fields**
 
-- `PetID`- Unique hash ID of pet profile
+- `PetID` - Unique hash ID of pet profile
 - `AdoptionSpeed` - Categorical speed of adoption. Lower is faster. `This is the value to predict`. See below section for more info.
 
 - `Type` - Type of animal ( 1  = Dog, 2  = Cat)
@@ -306,7 +310,6 @@ However as mentioned above, the columns `Name` and `Description` are being dropp
 
 ## **Exploratory Visualization**
 
-
 <a name='descriptive-statistics'></a>
 
 ### **Descriptive Statistics**
@@ -314,7 +317,7 @@ However as mentioned above, the columns `Name` and `Description` are being dropp
 Glimpse of Descriptive Statistics of the dataset
 
 |           | Type     | Age      | Breed1  | Breed2  | Gender   | Color1  | Color2  | Color3  | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health   | Quantity | AdoptionSpeed |
-|-----------|----------|----------|---------|---------|----------|---------|---------|---------|--------------|-----------|------------|----------|------------|----------|----------|---------------|
+|---------------------|--------------------|--------------------|-------------------|-------------------|--------------------|-------------------|-------------------|-------------------|------------------------|---------------------|----------------------|--------------------|----------------------|--------------------|--------------------|-------------------------|
 | **count** | 14993    | 14993    | 14993   | 14993   | 14993    | 14993   | 14993   | 14993   | 14993        | 14993     | 14993      | 14993    | 14993      | 14993    | 14993    | 14993         |
 | **mean**  | 1.45761  | 0.871006 | 265.273 | 74.0097 | 1.77616  | 2.23418 | 3.22284 | 1.88201 | 1.862        | 1.46748   | 1.73121    | 1.55873  | 1.91423    | 1.03662  | 1.57607  | 2.51644       |
 | **std**   | 0.498217 | 1.51298  | 60.0568 | 123.012 | 0.681592 | 1.74523 | 2.74256 | 2.98409 | 0.547959     | 0.59907   | 0.667649   | 0.695817 | 0.566172   | 0.199535 | 1.47248  | 1.17726       |
@@ -325,7 +328,7 @@ Glimpse of Descriptive Statistics of the dataset
 | **max**   | 2        | 21.25    | 307     | 307     | 3        | 7       | 7       | 7       | 4            | 3         | 3          | 3        | 3          | 3        | 20       | 4             |
 
 
-> Open [this](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#descriptive-statistics) to clearly see descriptive statistics
+Open [***this***](https://github.com/maheshbabugorantla/Udacity_Machine_Learning/blob/master/Capstone-Project/Capstone-Project-Report.md#descriptive-statistics) to clearly see descriptive statistics
 
 ### **Dataset Distribution (per class)**
 
@@ -372,19 +375,25 @@ Because the `min` value in each of the above mentioned columns is `0`.
 
 <a name='data-distribution-plots-raw-and-processed-data'></a>
 
-### **Data Distribution Plots (Raw and Processed Data)**
+### **Data Distribution Plot**
 
-![Raw Features Pair Plot](./images/pairplot_features_raw_data.png)
+*some features have been removed in the pairplots due to space constraints*
 
-![Processed Features Pair Plot](./images/pairplot_features_processed_data.png)
+<!-- ![Raw Features Pair Plot](./images/pairplot_features_raw_data.png){ width=380px } -->
+
+![Features Pair Plot](./images/pairplot_features_processed_data.png){ width=460px}
+
+From the above pairplot of the features we can infer that `Age` feature has some impact on how fast a pet will be adopted. The lower the `Age` the faster a pet will get adopted.
 
 <a name='feature-correlation-heatmap-dogs-and-cats'></a>
 
 ### **Feature Correlation Heatmap (Dogs and Cats)**
 
-![Dog Features Correlation Heatmap](./images/dog_features_heatmap.png)
+![Dog Features Correlation Heatmap](./images/dog_features_heatmap.png){ width=320px }
 
-![Cat Feature Correlation Heatmap](./images/cat_features_heatmap.png)
+![Cat Feature Correlation Heatmap](./images/cat_features_heatmap.png){ width=320px }
+
+From the above two feature correlation heatmaps, we can determine that there are clearly no features that clearly draw the classification boundaries to determine `AdoptionSpeed` of a given pet. This characteristic of the dataset necessitates us to perform **`Feature Transformation`** to establish more explicit boundaries to predict the adoption speed of a pet animal.
 
 <a name='algorithms-and-techniques'></a>
 
@@ -400,6 +409,12 @@ Predicting `AdoptionSpeed` of a pet animal in the PetFinder's Animal Database is
 
 to predict the adaptability of a pet.
 
+```python
+  # TODO: Describe a few things about kNN and CART classifiers
+  # TODO: Why kNN over CART
+  # TODO: Add Justification for choosing kNN Classifier as Baseline model
+  # TODO: Explain what is XGBoost Ensemble and how it works
+```
 
 <a name='choosing-baseline-model'></a>
 
@@ -421,9 +436,9 @@ As we know that the above mentioned prediction task is a supervised classificati
 
 Currently, the baseline prediction accuracy (without feature transformation) is as follows
 
-| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
-|----------------------|--------------------------|---------------------------|
-| KNeighborsClassifier | 1.01                     | 31.17%                    |
+| Classification Model | Model Fit Time (in mins) | Log Loss Score |
+|----------------------|--------------------------|----------------|
+| KNeighborsClassifier | 0.68                     | 5.52           |
 
 <a name='data-preprocessing'></a>
 
@@ -435,10 +450,11 @@ Currently, the baseline prediction accuracy (without feature transformation) is 
 
 Lets [revisit](#understanding-the-descriptive-statistics) the abnormalities detected while examining the descriptive statistics again. The aforementioned abornamilities are possibly present in the data due to some human error or it is missing data.
 
-> If no documentation is available, some common values used instead of missing values are:
-> - **0** (for numerical values)
-> - **unknown** or **Unknown** (for categorical variables
-> - **?** (for categorical variables)
+ If no documentation is available, some common values used instead of missing values are:
+
+- **0** (for numerical values)
+- **unknown** or **Unknown** (for categorical variables
+- **?** (for categorical variables)
 
 Number of missing values after transforming the missing values (abnormal) to `None` are
 
@@ -489,7 +505,7 @@ To impute the `Categorical` columns (`Breed1`, `Color1`, `Color2`), I I have use
 
 #### **Anomalies in Dogs Data**
 
-![Dogs Data Distribution](images/dogs_data_distribution_plot.png)
+![Dogs Data Distribution](images/dogs_data_distribution_plot.png){ width=400px }
 
 In 4<sup>th</sup> row, 3<sup>rd</sup> column, `Type` column should be `1` for all the dog breeds. However, we can see that some rows of data with `dog` breeds have been marked as `cats`.
 
@@ -499,7 +515,7 @@ There are `36` dogs that are mislabelled as cats
 
 #### **Anomalies in Cats Data**
 
-![Cats Data Distribution](images/cats_data_distribution_plot.png)
+![Cats Data Distribution](images/cats_data_distribution_plot.png){ width=400px }
 
 In 4<sup>th</sup> row, 3<sup>rd</sup> column, `Type` column should be `2` for all the cat breeds. However, we can see that almost `50%` of data rows with `cat` breeds have been marked as `dogs`.
 
@@ -549,38 +565,44 @@ Theoretical Workflow for implementing the Solution Model
 - **Save the best model**
   - with best prediction time and accuracy
 
+<a name='challenges-with-data'></a>
+
+### **Challenges with Data**
+
+- I have initially performed just very nominal data cleaning by just removing all the rows where any column is empty. However, after close introspection of the data distribution just by glancing at the **Descriptive Statistics** of the data, I found glaring anomalies in a few features such as `Age`.
+  - Make sure to clearly interpret the descriptive statistics and correlate the results with respect to each individual feature to decipher the anomalies/outliers
+
+- Imputing the missing columns in each row
+  - Ensure the data imputation techniques are valid by **re-examining** the descriptive statistics after filling in missing values
+
+- Determining abnormal data values (other than missing values)
+  - Clearly examine each feature distribution using histograms to easily point out the abornmal data distributions
+
+Implementing appropriate methods to impute missing values and correct out of place values for each feature significantly improved the classification model's performance
+
 <a name='refinement'></a>
 
 ## **Refinement**
 
 Steps used to improve the prediction accuracy of the classification model.
 
-1. PreProcess the Data (as mentioned in the Feature Engineering)
+1. Preprocess the Data (as mentioned in the Feature Engineering)
 2. Transform the input features to reduce the dimensionality of the `input` data using `LDA - Linear Discriminant Analysis (Best for multi-class classification)`
 3. Used `n_components = 5` to transform the data using LDA
 4. Obtain the prediction accuracy of classification using kNN Classifier (baseline model)
 5. Use `GridSearchCV` method to best parameter set for `XGBoost Classifier` algorithm that will result in a better prediction accuracy than `kNN Classifier`
 
-**Initial Results without Feature Transformation**
+**Final Results after Feature Transformation**
 
-| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
-|----------------------|--------------------------|---------------------------|
-| KNeighborsClassifier | 1.01                     | 31.17%                    |
-| XGBoost              | 0.99                     | 38.01%                    |
-
-**Final Results without Feature Transformation**
-
-| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
-|----------------------|--------------------------|---------------------------|
-| KNeighborsClassifier | 0.03                     | 57.35%                    |
-| XGBoost              | 0.023                    | 59.60%                    |
-
+| Classification Model | Model Fit Time (in mins) | Log Loss Score |
+|----------------------|--------------------------|----------------|
+| XGBoost              | 0.07                     | 0.92           |
 
 <a name='model-evaluation-and-validation'></a>
 
 ## **Model Evaluation and Validation**
 
-`GridSearch Cross-Validation` technique is utilized to evaluate the `XGBoost` model parameters and pick the best parameters that will give a higher `cross-validation` score of `59.6%` for the classification model.
+`GridSearch Cross-Validation` technique is utilized to evaluate the `XGBoost` model parameters and pick the best parameters that will give a lower `log-loss` score of `0.92` for the classification model.
 
 Here are the parameters that give us the best cross validation score
 
@@ -596,20 +618,20 @@ The classification model can be called robust if it has a higher precision and l
 
 The model with a higher `F1 Score` will be an ideal robust model because it is higher precision and lower recall
 
-Currently the model has an `F1 Score` of `68.08%` which is an indication of higher precision.
+Currently the model has an `F1 Score` of `68.09%` which is an indication of higher precision.
 
 <a name='justification'></a>
 
 ## **Justification**
 
-My solution model has a way better cross validation score and lesser model fit time than benchmark model
+A perfect model will have a log loss of $0$. My solution model has a way better `log loss` score and lesser model fit time than benchmark model
 
-| Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
-|----------------------|--------------------------|---------------------------|
-| KNeighborsClassifier | 1.01                     | 31.17%                    |
-| XGBoost              | 0.023                    | 59.60%
+| Classification Model | Model Fit Time (in mins) | Log Loss Score |
+|----------------------|--------------------------|----------------|
+| KNeighborsClassifier | 0.68                     | 5.52           |
+| XGBoost              | 0.07                     | 0.92           |
 
-As we can observe that the solution model has much better prediction accuracy than just educated guessing or benchmark model. Hence, the solution model should be able to provide significant help to the pet adoption agency in predicting a pet animals adoption speed.
+As we can observe that the solution model has much better log loss score than just educated guessing or benchmark model. Hence, the solution model should be able to provide significant help to the pet adoption agency in predicting a pet animals adoption speed.
 
 <a name='free-form-visualization'></a>
 
@@ -617,11 +639,11 @@ As we can observe that the solution model has much better prediction accuracy th
 
 > A visualization has been provided that emphasizes an important quality about the project with thorough discussion. Visual cues are clearly defined.
 
-![XGBoost Graph](images/xgboost-tree.png)
+![XGBoost Graph](images/xgboost-tree.png){ width=400px }
 
 From the above XGBoost Graph Tree Visualization we can observe that there are two derived features `f0` and `f2` that influence a significant portion of the classification accuracy. Here is an another plot that corraborates the above evidence
 
-![Feature Importance Plot](images/feature_importance_plot.png)
+![Feature Importance Plot](images/feature_importance_plot.png){ width=300px }
 
 According the research articles referenced below, what makes a pet more adoptable is its `cuteness`, `health` condition and if it is not `neutered`. Because I have discarded the `cuteness` (a derived feature from pet images) to make the problem simpler to solve. It is very possible that those 2 features (`f0` and `f2`) that significantly influence the adoption speed should be a pet's `Health` and `Sterilized` features (or derived features using both the primitive features).
 
