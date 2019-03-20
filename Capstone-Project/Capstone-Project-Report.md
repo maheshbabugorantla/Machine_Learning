@@ -23,6 +23,8 @@
     - [**Descriptive Statistics**](#descriptive-statistics)
     - [**Dataset Distribution (per class)**](#dataset-distribution-per-class)
     - [**Understanding the Descriptive Statistics**](#understanding-the-descriptive-statistics)
+    - [**Data Distribution Plots (Raw and Processed Data)**](#data-distribution-plots-raw-and-processed-data)
+    - [**Feature Correlation Heatmap (Dogs and Cats)**](#feature-correlation-heatmap-dogs-and-cats)
   - [**Algorithms and Techniques**](#algorithms-and-techniques)
     - [**Choosing Baseline Model**](#choosing-baseline-model)
   - [**Benchmark**](#benchmark)
@@ -136,11 +138,11 @@ from sklearn.metrics import log_loss, make_scorer
 scoring_function = make_scorer(log_loss, needs_proba=True)
 ```
 
-I would like to propose an evaluation metric called `Cross Validation Score`. The simplest way to use cross-validation is to call the `cross_val_score` helper function on the estimator and the dataset.
+I would like to use `log_loss` estimator along with `StratifiedKFold` cross-validation technique to compute the robustness of the classification model. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
 
-Given, the problem is to develop a supervised multi-class classification model, the `cross_val_score` method uses `StratifiedKFold` cross-validation technique. `StratifiedKFold` cross-validation method is a variation of `KFold` that returns startified folds. The folds are made by preserving the percentage of samples for each class.
+The simplest way to use cross-validation is to call the `cross_val_score` helper function on the estimator and the dataset.
 
-The model whose cross validation score is greater than the benchmark model and with a higher precision will be my solution model.
+The model whose cross validation score and model fit time is lower than the benchmark model is my solution model.
 
 <a name='data-exploration'></a>
 
@@ -304,6 +306,7 @@ However as mentioned above, the columns `Name` and `Description` are being dropp
 
 ## **Exploratory Visualization**
 
+
 <a name='descriptive-statistics'></a>
 
 ### **Descriptive Statistics**
@@ -367,6 +370,22 @@ Because the `min` value in each of the above mentioned columns is `0`.
       | Gray   | `6`     |
       | White  | `7`     |
 
+<a name='data-distribution-plots-raw-and-processed-data'></a>
+
+### **Data Distribution Plots (Raw and Processed Data)**
+
+![Raw Features Pair Plot](./images/pairplot_features_raw_data.png)
+
+![Processed Features Pair Plot](./images/pairplot_features_processed_data.png)
+
+<a name='feature-correlation-heatmap-dogs-and-cats'></a>
+
+### **Feature Correlation Heatmap (Dogs and Cats)**
+
+![Dog Features Correlation Heatmap](./images/dog_features_heatmap.png)
+
+![Cat Feature Correlation Heatmap](./images/cat_features_heatmap.png)
+
 <a name='algorithms-and-techniques'></a>
 
 ## **Algorithms and Techniques**
@@ -400,14 +419,11 @@ Hence, I chose to use `kNN` classification model as my baseline model
 
 As we know that the above mentioned prediction task is a supervised classification problem, we should use tree based classification models which typically outperform other classification models. Hence, I would like to use `kNN Classfier` algorithm as a benchmark and beat the benchmark performance both in terms of time to fit the model as well as increase in the prediction accuracy.
 
-Based on my previous experience with solving the classification problems I have observed that usually `XGBoost` is very consistent with giving better classification accuracy. Hence, I have hypothesized the same performance to be delivered by the `XGBoost` algorithm for the given problem.
-
 Currently, the baseline prediction accuracy (without feature transformation) is as follows
 
 | Classification Model | Model Fit Time (in mins) | Cross Validation Accuracy |
 |----------------------|--------------------------|---------------------------|
 | KNeighborsClassifier | 1.01                     | 31.17%                    |
-| XGBoost              | 0.99                     | 38.01%                    |
 
 <a name='data-preprocessing'></a>
 
