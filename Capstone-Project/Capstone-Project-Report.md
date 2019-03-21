@@ -2,7 +2,7 @@
 
 ## **Kaggle Challenge: PetFinder.my Adoption Prediction**
 
-> Mahesh Babu Gorantla - March 15, 2019
+> Mahesh Babu Gorantla - March 20, 2019
 
 - [**Machine Learning Nanodegree Capstone Project**](#machine-learning-nanodegree-capstone-project)
   - [**Kaggle Challenge: PetFinder.my Adoption Prediction**](#kaggle-challenge-petfindermy-adoption-prediction)
@@ -26,7 +26,10 @@
     - [**Data Distribution Plot**](#data-distribution-plot)
     - [**Feature Correlation Heatmap (Dogs and Cats)**](#feature-correlation-heatmap-dogs-and-cats)
   - [**Algorithms and Techniques**](#algorithms-and-techniques)
+    - [**kNN Classifier Model**](#knn-classifier-model)
+    - [**XGBoost Model**](#xgboost-model)
     - [**Choosing Baseline Model**](#choosing-baseline-model)
+    - [**Choosing Solution Model**](#choosing-solution-model)
   - [**Benchmark**](#benchmark)
   - [**Data Preprocessing**](#data-preprocessing)
     - [**1. Transforming Missing Values to None**](#1-transforming-missing-values-to-none)
@@ -160,8 +163,8 @@ The dataset to solve the above mentioned problem has been obtained as a part of 
 
 > Removed `Description`, `PetID` and `RescuerID` Column due to space constraints
 
-| **Type** | **Name** | Age | Breed1 | Breed2 | Gender | Color1 | Color2 | Color3 | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health |  Quantity | Fee | State | VideoAmt | PhotoAmt | AdoptionSpeed |
-| :---------------------------: | :-------------------------------: | :---------------------: | :------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------------: | :------------------: | :-------------------: | :-----------------: | :-------------------: | :---------------: | :-----------------: | :------------: | :--------------: | :---------------------------------------: | :-----------------: | :---------------------: | :----------------: |
+| Type | Name | Age | Breed1 | Breed2 | Gender | Color1 | Color2 | Color3 | MaturitySize | FurLength | Vaccinated | Dewormed | Sterilized | Health |  Quantity | Fee | State | VideoAmt | PhotoAmt | AdoptionSpeed |
+| --------------------------- | ------------------------------- | --------------------- | ------------ | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------------- | ------------------ | ------------------- | ----------------- | ------------------- | --------------- | ----------------- | ------------ | -------------- | --------------------------------------- | ----------------- | --------------------- | ---------------- |
 | 2 | Nibble | 3 | 299 | 0 | 1 | 1 | 7 | 0 | 1 | 1 | 2 | 2 | 2 | 1 | 1 | 100 | 41326 | 0 | 1 | 2 |
 | 2 | No Name Yet | 1 | 265 | 0 | 1 | 1 | 2 | 0 | 2 | 2 | 3 | 3 | 3 | 1 | 1 | 0 | 41401 | 0 | 2 | 0 |
 | 1 | Brisco | 1 | 307 | 0 | 1 | 2 | 7 | 0 | 2 | 2 | 1 | 1 | 2 | 1 | 1 | 0 | 41326 | 0 | 7 | 3 |
@@ -389,9 +392,9 @@ From the above pairplot of the features we can infer that `Age` feature has some
 
 ### **Feature Correlation Heatmap (Dogs and Cats)**
 
-![Dog Features Correlation Heatmap](./images/dog_features_heatmap.png){ width=320px }
+![Dog Features Correlation Heatmap](./images/dog_features_heatmap.png){ width=430px }
 
-![Cat Feature Correlation Heatmap](./images/cat_features_heatmap.png){ width=320px }
+![Cat Feature Correlation Heatmap](./images/cat_features_heatmap.png){ width=430px }
 
 From the above two feature correlation heatmaps, we can determine that there are clearly no features that clearly draw the classification boundaries to determine `AdoptionSpeed` of a given pet. This characteristic of the dataset necessitates us to perform **`Feature Transformation`** to establish more explicit boundaries to predict the adoption speed of a pet animal.
 
@@ -405,16 +408,48 @@ Predicting `AdoptionSpeed` of a pet animal in the PetFinder's Animal Database is
 2. kNN Classifier (**Baseline Model**)
 3. Support Vector Machines (SVM)
 4. Random Forests
-5. XGBoost
+5. XGBoost (**Solution Model**)
 
 to predict the adaptability of a pet.
 
-```python
-  # TODO: Describe a few things about kNN and CART classifiers
-  # TODO: Why kNN over CART
-  # TODO: Add Justification for choosing kNN Classifier as Baseline model
-  # TODO: Explain what is XGBoost Ensemble and how it works
-```
+I chose to use the below mentioned two classification algorithms to predict pet adoption speed
+
+### **kNN Classifier Model**
+
+The k-Nearest-Neighbors algorithm is a supervised classification algorithm. The algorithm takes in a set of labelled datapoints (`Training Set`) and uses the patterns learned from the dataset to label other points. To label new datapoints, it identifies the labelled datapoints that are closer (nearest neighbors) to the new datapoint and lets the neighbors vote. Whichever label most of the neighbors have will be used to label the new datapoint (the `k` is the number of neighbors the algorithm checks). Unlike most of the other methods of classification, kNN uses **no explicit training phase before classification**. Any attempts to generalize the data is made upon classification.
+
+**Advantages**
+
+- It is **non-parametric** - algorithm makes no assumptions about the input dataset
+- Works best on smaller datasets with not many features
+- High Accuracy (relatively) - it is pretty high but not as competitive
+
+**Disadvantages**
+
+- The model keeps the entire dataset in the memory. Hence, bad for large datasets
+- Performing classifications can be computationally expensive because the algorithm parses the whole dataset for each classification
+- Suffers tremendously from the curse of dimensionality of the dataset
+- Classification speed is slow
+
+### **XGBoost Model**
+
+XGBoost (e**X**treme **G**radient **B**oosting) is a scalable and accurate implementation of gradient boosting machines and it has proven to push limits of computing power for boosted trees algorithms. It is built with the sole purpose of model performance and computational speed.
+
+XGBoost is an ensemble method that seeks to create a strong classifier (model) based on `weak` classifers. Here the `weak` and `strong` refer to a measure of how correlated are the learners to the actual target variable. This algorithm sequentially adds predictors and corrects previous models. Instead of assigning different weights to the classifiers after every iteration, this method fits the new model to new residuals of the previous prediction and then minimizes the loss when adding the latest prediction.
+
+**Advantages**
+
+- Lower prediction time over other supervised classification models
+- Prevents overfitting using both L1 and L2 regularization
+- Incorporates a sparsity-aware split finding algorithm to handle different types of sparsity patterns in the data
+- Uses a distributed wighted quantile sketch algorithm to effectively handle weighted data
+- Block Structure for parallel computing
+- Optimizes the available disk space and maximizes its usage when handling huge datasets
+
+**Disadvantages**
+
+- A very complex model to understand and explain
+- Longer model training time than other classification models
 
 <a name='choosing-baseline-model'></a>
 
@@ -424,9 +459,13 @@ A very crude baseline model can be just an educated guess based on the `multi-cl
 
 Any of the classification models (from the above) that will beat the aforementioned crude prediction model (based on educated guessing) even by a narrow margin will be my baseline classification model.
 
-Given the number of training features of a pet, `CART` classification model is very crude to capture enough variance in the given dataset.
+I chose `kNN` classifier algorithm as my baseline. Because, given the number of data points and features of a pet, `kNN` classification algorithm should produce a less complex and easy to understand prediction model than `XGBoost` algorithm.
 
-Hence, I chose to use `kNN` classification model as my baseline model
+<a name='choosing-solution-model'></a>
+
+### **Choosing Solution Model**
+
+XGBoost is the right fit to create classification model weighing in the `advantages` and `disadvantages` of the algorithm.
 
 <a name='benchmark'></a>
 
@@ -531,39 +570,46 @@ To correct such anomalies we need to make sure that all the rows whose `Breed1` 
 
 Theoretical Workflow for implementing the Solution Model
 
-- **Import the Training Dataset**
-  - Load the necessary libraries such as `numpy`, `pandas`
-  - Load the `data/train/train.csv` dataset
-  - Drop irrelevant columns
+1. **Import the Training Dataset**
 
-- **Data Exploration**
-  - Find missing rows in the each column using `df.isnull().sum()`
-  - Obtain and Understand Descriptive Statistics
+   - Load the necessary libraries such as `numpy`, `pandas`
+   - Load the `data/train/train.csv` dataset
+   - Drop irrelevant columns
 
-- **Feature Engineering**
-  - Decipher more missing values from descriptive statistics (if any)
-  - Impute missing values using Custom Quantitative/Categorical Imputers
-  - Visualize per column distribution using histograms
-  - Find any anomalous data distributions from the plots
-  - Dummify Categorical Columns
-  - Scale all the columns either by using `z-scaling` (`StandardScaler`) or `min-max scaling` (`MinMaxScaler`) technique
+2. **Data Exploration**
 
-- **Evaluate Classification Models**
-  - Choose a few classification models
-  - Split the dataset into train/split test using `StratifiedKFold` cross-validation technique
-  - Score each classification model using `cross_val_score` and `log_loss` scoring function
-  - Choose the classification model with best cross validation score
-    - The lower the `log_loss` score the better the classification model is
+   - Find missing rows in the each column using `df.isnull().sum()`
+   - Obtain and Understand Descriptive Statistics
 
-- **Feature Transformation**
-  - Reduce the dimensionality of features
-    - Using LDA - Linear Discriminant Analysis (Best for multi-class classification)
+3. **Feature Engineering**
 
-- **Tune the Classification Model**
-  - Use `GridSearchCV` to improve the accuracy
+   - Decipher more missing values from descriptive statistics (if any)
+   - Impute missing values using Custom Quantitative/Categorical Imputers
+   - Visualize per column distribution using histograms
+   - Find any anomalous data distributions from the plots
+   - Dummify Categorical Columns
+   - Scale all the columns either by using `z-scaling` (`StandardScaler`) or `min-max scaling` (`MinMaxScaler`) technique
 
-- **Save the best model**
-  - with best prediction time and accuracy
+4. **Evaluate Classification Models**
+
+   - Choose a few classification models
+   - Split the dataset into train/split test using `StratifiedKFold` cross-validation technique
+   - Score each classification model using `cross_val_score` and `log_loss` scoring function
+   - Choose the classification model with best cross validation score
+     - The lower the `log_loss` score the better the classification model is
+
+5. **Feature Transformation**
+
+   - Reduce the dimensionality of features
+     - Using LDA - Linear Discriminant Analysis (Best for multi-class classification)
+
+6. **Tune the Classification Model**
+
+   - Use `GridSearchCV` to improve the accuracy
+
+7. **Save the best model**
+
+   - with best prediction time and accuracy
 
 <a name='challenges-with-data'></a>
 
@@ -698,3 +744,7 @@ From photos, we can compute the cuteness factor of a pet animal and inject those
 12. Swalin, A., & Swalin, A. (2018, May 02). Choosing the Right Metric for Evaluating Machine Learning Models - Part 2. Retrieved from https://medium.com/usf-msds/choosing-the-right-metric-for-evaluating-machine-learning-models-part-2-86d5649a5428
 
 13. Sokolova, M., & Lapalme, G. (2009). A systematic analysis of performance measures for classification tasks. Information Processing & Management, 45(4), 427-437. doi:10.1016/j.ipm.2009.03.002
+
+14. Synced. (2017, October 22). Tree Boosting With XGBoost - Why Does XGBoost Win "Every" Machine Learning Competition? Retrieved from https://medium.com/syncedreview/tree-boosting-with-xgboost-why-does-xgboost-win-every-machine-learning-competition-ca8034c0b283
+
+15. KDnuggets. (n.d.). Retrieved from https://www.kdnuggets.com/2017/10/xgboost-top-machine-learning-method-kaggle-explained.html
